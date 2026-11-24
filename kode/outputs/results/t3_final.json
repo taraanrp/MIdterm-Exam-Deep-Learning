@@ -1,0 +1,92 @@
+{
+  "name": "t3_final",
+  "quick": false,
+  "seed": 42,
+  "time": "2026-11-24 14:31:13",
+  "versions": {
+    "python": "3.13.14",
+    "numpy": "2.5.5",
+    "pandas": "3.1.1",
+    "sklearn": "1.9.1",
+    "torch": "2.14.1+cu126",
+    "device": "cuda:NVIDIA GeForce RTX 3050 Laptop GPU"
+  },
+  "data": {
+    "per_cluster": [
+      {
+        "cluster": 0,
+        "ukuran_%": 27.92777777777778,
+        "silhouette_rata2": 0.2895970114572896,
+        "porsi_M2_%": 40.11338770638552,
+        "tetangga_beda_cluster_%": 0.07288629737609575,
+        "posisi_puncak_spektrum": 20
+      },
+      {
+        "cluster": 1,
+        "ukuran_%": 24.125,
+        "silhouette_rata2": 0.30390008412144315,
+        "porsi_M2_%": 39.14795624640185,
+        "tetangga_beda_cluster_%": 0.024449877750609694,
+        "posisi_puncak_spektrum": 75
+      },
+      {
+        "cluster": 2,
+        "ukuran_%": 23.98888888888889,
+        "silhouette_rata2": 0.17953705029896802,
+        "porsi_M2_%": 39.983788791106996,
+        "tetangga_beda_cluster_%": 0.07456503728251462,
+        "posisi_puncak_spektrum": 35
+      },
+      {
+        "cluster": 3,
+        "ukuran_%": 13.802777777777777,
+        "silhouette_rata2": 0.3291312122419554,
+        "porsi_M2_%": 40.04829945663111,
+        "tetangga_beda_cluster_%": 0.17241379310344307,
+        "posisi_puncak_spektrum": 62
+      },
+      {
+        "cluster": 4,
+        "ukuran_%": 10.155555555555555,
+        "silhouette_rata2": 0.3529680494265591,
+        "porsi_M2_%": 40.70021881838075,
+        "tetangga_beda_cluster_%": 0.0,
+        "posisi_puncak_spektrum": 62
+      }
+    ],
+    "pasangan_sulit": [
+      {
+        "cluster_a": 0,
+        "cluster_b": 3,
+        "campuran_tetangga": 0.0023801146074193223
+      },
+      {
+        "cluster_a": 0,
+        "cluster_b": 2,
+        "campuran_tetangga": 0.0006628003314001657
+      },
+      {
+        "cluster_a": 0,
+        "cluster_b": 1,
+        "campuran_tetangga": 0.00031738507488220574
+      }
+    ],
+    "k": 5,
+    "ukuran": [
+      10054,
+      8685,
+      8636,
+      4969,
+      3656
+    ],
+    "ARI_mikroskop": 0.00017127348583065468
+  },
+  "angka": {
+    "TtigaNCluster": 5,
+    "TtigaARIMikroskopFinal": 0.0,
+    "TtigaSulitA": 0,
+    "TtigaSulitB": 3,
+    "TtigaSilRata": 0.278,
+    "TtigaClusterTerkecil": 10.2
+  }
+}

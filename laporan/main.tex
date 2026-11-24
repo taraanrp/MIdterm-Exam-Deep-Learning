@@ -1,0 +1,45 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[a4paper,margin=2.3cm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\IfFileExists{bahasai.ldf}{\usepackage[bahasai]{babel}}{\usepackage[english]{babel}}
+\usepackage{booktabs,graphicx,float,amsmath,hyperref,caption,enumitem}
+\usepackage[section]{placeins}   % gambar/tabel tidak "kabur" ke bab berikutnya
+\captionsetup{font=small}
+\hypersetup{hidelinks}
+\setlist{nosep}
+\graphicspath{{figures/}}
+\setlength{\parskip}{4pt}\setlength{\parindent}{0pt}\setlength{\emergencystretch}{3em}
+\input{tables/angka.tex}
+
+\title{UTS Deep Learning\\\large Klasifikasi Cacat Multimodal, Prediksi Sisa Umur Mesin, dan Clustering Material}
+\author{Kelompok 15 \\[4pt] Hadi Nugroho (101032330235) \\ Tarannia Raisha Putri (101032300231) \\ Naufal Alif Abyan (101032300032)}
+\date{November 2026}
+
+\begin{document}
+\maketitle
+
+\section{Pendahuluan}
+Laporan ini menjawab tiga tugas UTS Deep Learning: (1) klasifikasi tujuh jenis cacat produk dari gambar permukaan dan sinyal sensor penekanan,
+(2) prediksi sisa umur pakai (RUL) mesin press dari log per siklus, dan (3) pengelompokan sampel material dari citra mikrostruktur dan spektrum komposisi tanpa label.
+Model utama setiap tugas adalah jaringan saraf (PyTorch); metode klasik hanya dipakai sebagai baseline atau pembanding. Tiga prinsip dipegang:
+\begin{enumerate}
+  \item \textbf{Validasi meniru kondisi uji.} Tugas 1 melaporkan F1 per lini dan F1 yang dibobot porsi lini di data uji; Tugas 2 memvalidasi per mesin pada titik potong acak seperti data uji;
+        Tugas 3 memeriksa bahwa cluster tidak sekadar memisahkan mikroskop.
+  \item \textbf{Tanpa kebocoran.} Statistik normalisasi dihitung dari data latih fold; jendela RUL hanya berisi siklus masa lalu (diuji otomatis).
+  \item \textbf{Reproducibility.} Seluruh angka dibaca otomatis dari file hasil di \url{kode/outputs/results/}. Satu perintah menghasilkan ulang semuanya (seed 42):\\
+        \texttt{python kode/run\_all.py -{}-task all -{}-mode train}
+\end{enumerate}
+
+\input{bab_t1.tex}
+\input{bab_t2.tex}
+\input{bab_t3.tex}
+
+\section{Kesimpulan dan Keterbatasan}
+\input{bab_penutup.tex}
+
+\appendix
+\section{Lampiran}
+\input{bab_lampiran.tex}
+
+\end{document}

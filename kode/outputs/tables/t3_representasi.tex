@@ -1,0 +1,18 @@
+\begin{table}[ht]
+\centering\small
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%
+\begin{tabular}{lrrrr}
+\toprule
+representasi & k\_terpilih & silhouette & stabilitas\_ARI & ARI\_dengan\_mikroskop \\
+\midrule
+gambar saja (SimCLR) & 6 & 0.478 & 1.000 & -0.000 \\
+spektrum saja (SimCLR) & 5 & 0.243 & 0.978 & -0.001 \\
+gabungan concat & 5 & 0.304 & 0.927 & 0.000 \\
+gabungan joint (CLIP) & 5 & 0.278 & 0.931 & 0.000 \\
+PCA piksel+spektrum (pembanding non-DL) & 5 & 0.208 & 0.968 & 0.002 \\
+\bottomrule
+\end{tabular}
+}
+\caption{Representasi: k terpilih (aturan stabilitas $\geq$ 0.90 lalu silhouette tertinggi), kualitas, dan ARI dengan mikroskop.}
+\label{tab:t3_representasi}
+\end{table}

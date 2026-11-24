@@ -1,0 +1,17 @@
+\begin{table}[ht]
+\centering\small
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%
+\begin{tabular}{lrrrrr}
+\toprule
+metode & silhouette & ARI\_antar\_seed & ARI\_vs\_KMeans & ARI\_dengan\_mikroskop & ukuran\_terkecil\_\% \\
+\midrule
+K-Means & 0.278 & 0.828 & 1.000 & 0.000 & 10.156 \\
+GMM (diag) & 0.278 & 1.000 & 0.992 & 0.000 & 10.156 \\
+Agglomerative Ward & 0.278 & 1.000 & 0.999 & 0.000 & 10.156 \\
+DEC (deep clustering) & 0.202 & 0.567 & 0.560 & 0.000 & 16.964 \\
+\bottomrule
+\end{tabular}
+}
+\caption{Perbandingan metode clustering pada k = 5.}
+\label{tab:t3_metode}
+\end{table}

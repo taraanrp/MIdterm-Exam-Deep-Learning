@@ -1,0 +1,20 @@
+\begin{table}[ht]
+\centering\small
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%
+\begin{tabular}{lrrrl}
+\toprule
+kelas & image-only & sensor-only & fusion (late fusion) & modalitas\_utama \\
+\midrule
+normal & 0.841 & 0.737 & 0.906 & keduanya (fusion) \\
+gores & 0.723 & 0.000 & 0.788 & gambar \\
+noda & 0.875 & 0.000 & 0.882 & gambar \\
+retak & 0.538 & 0.706 & 0.755 & sensor \\
+gelembung & 0.648 & 0.772 & 0.799 & sensor \\
+las\_dingin & 0.000 & 0.930 & 0.930 & sensor \\
+kontaminasi & 0.913 & 0.000 & 0.924 & gambar \\
+\bottomrule
+\end{tabular}
+}
+\caption{F1 per kelas: image-only, sensor-only, dan fusion terpilih (validasi).}
+\label{tab:t1_modalitas}
+\end{table}

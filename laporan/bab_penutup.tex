@@ -1,0 +1,9 @@
+\begin{itemize}
+  \item \textbf{Tugas 1.} Perbedaan komposisi lini antara data latih dan uji adalah risiko terbesar; karena itu validasi memakai F1 terbobot porsi lini uji.
+        Fusion gambar + sensor dengan kanal mask dan modality dropout menjaga prediksi tetap wajar saat sensor tidak terekam.
+        \textit{Keterbatasan:} label validasi sendiri dapat salah, sehingga angka validasi bukan kebenaran mutlak.
+  \item \textbf{Tugas 2.} Normalisasi per kondisi operasi dan validasi per mesin pada titik potong acak adalah kunci evaluasi yang jujur. Koreksi bias kecil menurunkan skor
+        asimetris karena prediksi terlambat dihukum lebih berat. \textit{Keterbatasan:} interval MC dropout bergantung pada laju dropout dan belum dikalibrasi ulang.
+  \item \textbf{Tugas 3.} Augmentasi yang meniru distorsi (rotasi, kecerahan mikroskop, pergeseran puncak, baseline, spike) membuat representasi fokus pada material.
+        \textit{Keterbatasan:} jumlah tipe material tidak diketahui; kriteria internal hanya memberi indikasi.
+\end{itemize}

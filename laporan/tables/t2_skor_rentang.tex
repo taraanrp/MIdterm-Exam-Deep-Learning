@@ -1,0 +1,17 @@
+\begin{table}[ht]
+\centering\small
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%
+\begin{tabular}{lrrrr}
+\toprule
+model & skor\_rul\_0\_25 & skor\_rul\_25\_50 & skor\_rul\_50\_100 & skor\_rul\_100\_150 \\
+\midrule
+TCN (1D-CNN dilatasi) & 783.576 & 7513.533 & 20794.864 & 1490.349 \\
+LightGBM (baseline non-DL) & 689.235 & 7136.239 & 21308.650 & 1677.989 \\
+GRU & 865.379 & 59792.506 & 58087.709 & 3257.132 \\
+GRU + loss asimetris & 754.139 & 51706.650 & 49658.233 & 3676.140 \\
+\bottomrule
+\end{tabular}
+}
+\caption{Skor asimetris per rentang RUL aktual (dinormalisasi per 300 unit).}
+\label{tab:t2_skor_rentang}
+\end{table}

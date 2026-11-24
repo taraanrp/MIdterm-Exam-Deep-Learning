@@ -1,0 +1,17 @@
+\begin{table}[ht]
+\centering\small
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%
+\begin{tabular}{lrrrr}
+\toprule
+kondisi sensor & f1\_macro & f1\_lini\_A & f1\_lini\_B & f1\_terbobot\_uji \\
+\midrule
+asli & 0.857 & 0.887 & 0.765 & 0.814 \\
+hilang & 0.618 & 0.659 & 0.485 & 0.555 \\
+satu\_kanal\_hilang & 0.787 & 0.823 & 0.680 & 0.737 \\
+aslinya tidak terekam (n=480) & 0.608 & 0.638 & 0.528 & 0.572 \\
+\bottomrule
+\end{tabular}
+}
+\caption{Model final (seed pertama) saat sensor lengkap, seluruhnya hilang, atau satu kanal hilang (validasi).}
+\label{tab:t1_missing}
+\end{table}

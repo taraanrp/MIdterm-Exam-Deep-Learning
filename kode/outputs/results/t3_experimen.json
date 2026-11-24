@@ -1,0 +1,877 @@
+{
+  "name": "t3_experimen",
+  "quick": false,
+  "seed": 42,
+  "time": "2026-11-24 14:30:21",
+  "versions": {
+    "python": "3.13.14",
+    "numpy": "2.5.5",
+    "pandas": "3.1.1",
+    "sklearn": "1.9.1",
+    "torch": "2.14.1+cu126",
+    "device": "cuda:NVIDIA GeForce RTX 3050 Laptop GPU"
+  },
+  "data": {
+    "distorsi": {
+      "kecerahan_kontras_per_mikroskop": [
+        {
+          "mikroskop": "M1",
+          "kecerahan": 127.8,
+          "kontras": 19.7
+        },
+        {
+          "mikroskop": "M2",
+          "kecerahan": 146.07,
+          "kontras": 19.9
+        }
+      ],
+      "persen_titik_spike": 0.5480251736111111,
+      "persen_spektrum_ada_spike": 22.458333333333332,
+      "kemiringan_baseline_persentil": [
+        -0.005752709284738578,
+        -6.813680791654013e-05,
+        0.005057136935206301
+      ],
+      "posisi_puncak_persentil": [
+        17.0,
+        24.0,
+        53.0,
+        68.0,
+        110.0
+      ],
+      "std_orientasi_tekstur": 51.640830993652344,
+      "porsi_M2_%": 39.900000000000006
+    },
+    "representasi": [
+      {
+        "representasi": "gambar saja (SimCLR)",
+        "k_terpilih": 6,
+        "silhouette": 0.4781852066516876,
+        "stabilitas_ARI": 0.9996382100951855,
+        "ARI_dengan_mikroskop": -0.00016950160653496146
+      },
+      {
+        "representasi": "spektrum saja (SimCLR)",
+        "k_terpilih": 5,
+        "silhouette": 0.24341747164726257,
+        "stabilitas_ARI": 0.9780579988541709,
+        "ARI_dengan_mikroskop": -0.0005929663122308679
+      },
+      {
+        "representasi": "gabungan concat",
+        "k_terpilih": 5,
+        "silhouette": 0.3037791841611999,
+        "stabilitas_ARI": 0.9269230128835908,
+        "ARI_dengan_mikroskop": 0.00013362897491531612
+      },
+      {
+        "representasi": "gabungan joint (CLIP)",
+        "k_terpilih": 5,
+        "silhouette": 0.27818181428265676,
+        "stabilitas_ARI": 0.9312039842889014,
+        "ARI_dengan_mikroskop": 0.00014663962799970321
+      },
+      {
+        "representasi": "PCA piksel+spektrum (pembanding non-DL)",
+        "k_terpilih": 5,
+        "silhouette": 0.20817506313323975,
+        "stabilitas_ARI": 0.9682752765667921,
+        "ARI_dengan_mikroskop": 0.0018782103708124187
+      }
+    ],
+    "representasi_terpilih": "gabungan joint (CLIP)",
+    "kriteria_per_representasi": {
+      "gambar saja (SimCLR)": [
+        {
+          "k": 2,
+          "silhouette": 0.29261156916618347,
+          "davies_bouldin": 1.4817509661048616,
+          "bic_gmm": -2722588.997147418,
+          "stabilitas_ARI": 0.9999332839481958,
+          "stabilitas_min": 0.9998888065803263,
+          "ukuran_terkecil_%": 41.74722222222223
+        },
+        {
+          "k": 3,
+          "silhouette": 0.3780834674835205,
+          "davies_bouldin": 1.2814474067526689,
+          "bic_gmm": -2757617.4837101754,
+          "stabilitas_ARI": 0.9997611978804223,
+          "stabilitas_min": 0.9996162067940842,
+          "ukuran_terkecil_%": 24.06388888888889
+        },
+        {
+          "k": 4,
+          "silhouette": 0.4335809051990509,
+          "davies_bouldin": 1.00622603289003,
+          "bic_gmm": -2799391.791471224,
+          "stabilitas_ARI": 0.8759165010121002,
+          "stabilitas_min": 0.6899927249467281,
+          "ukuran_terkecil_%": 10.155555555555555
+        },
+        {
+          "k": 5,
+          "silhouette": 0.4736330509185791,
+          "davies_bouldin": 0.8892936053943965,
+          "bic_gmm": -2818587.1672213124,
+          "stabilitas_ARI": 0.9997187031716862,
+          "stabilitas_min": 0.999531198007778,
+          "ukuran_terkecil_%": 10.155555555555555
+        },
+        {
+          "k": 6,
+          "silhouette": 0.4781852066516876,
+          "davies_bouldin": 0.8855085722457442,
+          "bic_gmm": -2887523.9193437556,
+          "stabilitas_ARI": 0.9996382100951855,
+          "stabilitas_min": 0.9994393825600386,
+          "ukuran_terkecil_%": 10.155555555555555
+        },
+        {
+          "k": 7,
+          "silhouette": 0.42627233266830444,
+          "davies_bouldin": 1.0257697233310161,
+          "bic_gmm": -2897435.298678699,
+          "stabilitas_ARI": 0.9983025568872324,
+          "stabilitas_min": 0.9970651021215035,
+          "ukuran_terkecil_%": 9.51388888888889
+        },
+        {
+          "k": 8,
+          "silhouette": 0.355317622423172,
+          "davies_bouldin": 1.1505890784386654,
+          "bic_gmm": -2931662.9817850306,
+          "stabilitas_ARI": 0.9971809523523978,
+          "stabilitas_min": 0.9961384907808097,
+          "ukuran_terkecil_%": 9.516666666666666
+        },
+        {
+          "k": 9,
+          "silhouette": 0.32802698016166687,
+          "davies_bouldin": 1.3455006880599694,
+          "bic_gmm": -2936353.7801011996,
+          "stabilitas_ARI": 0.9302552760783769,
+          "stabilitas_min": 0.8888081646068708,
+          "ukuran_terkecil_%": 5.511111111111111
+        },
+        {
+          "k": 10,
+          "silhouette": 0.3159000277519226,
+          "davies_bouldin": 1.4053937545956594,
+          "bic_gmm": -2946194.111560249,
+          "stabilitas_ARI": 0.8885622976135746,
+          "stabilitas_min": 0.8094964036027443,
+          "ukuran_terkecil_%": 5.294444444444444
+        },
+        {
+          "k": 11,
+          "silhouette": 0.2919026017189026,
+          "davies_bouldin": 1.6069927933649704,
+          "bic_gmm": -2960112.1445577987,
+          "stabilitas_ARI": 0.9119714448020568,
+          "stabilitas_min": 0.8373034997259748,
+          "ukuran_terkecil_%": 5.483333333333333
+        },
+        {
+          "k": 12,
+          "silhouette": 0.2520081400871277,
+          "davies_bouldin": 1.580001669847953,
+          "bic_gmm": -2968282.680561977,
+          "stabilitas_ARI": 0.8486702724860773,
+          "stabilitas_min": 0.7475426170125985,
+          "ukuran_terkecil_%": 5.288888888888889
+        },
+        {
+          "k": 13,
+          "silhouette": 0.22662153840065002,
+          "davies_bouldin": 1.6348852555433502,
+          "bic_gmm": -2972731.749940172,
+          "stabilitas_ARI": 0.7927336840844585,
+          "stabilitas_min": 0.7178588034592939,
+          "ukuran_terkecil_%": 4.794444444444444
+        },
+        {
+          "k": 14,
+          "silhouette": 0.20338687300682068,
+          "davies_bouldin": 1.7768707287185188,
+          "bic_gmm": -2978341.9228828736,
+          "stabilitas_ARI": 0.7700581875211328,
+          "stabilitas_min": 0.7202878553171607,
+          "ukuran_terkecil_%": 4.822222222222222
+        },
+        {
+          "k": 15,
+          "silhouette": 0.20148980617523193,
+          "davies_bouldin": 1.7745488423857365,
+          "bic_gmm": -2986593.645545057,
+          "stabilitas_ARI": 0.7487103198041025,
+          "stabilitas_min": 0.6680007300175003,
+          "ukuran_terkecil_%": 3.4444444444444446
+        }
+      ],
+      "spektrum saja (SimCLR)": [
+        {
+          "k": 2,
+          "silhouette": 0.2971995770931244,
+          "davies_bouldin": 1.3647134016090257,
+          "bic_gmm": -2801658.3365729405,
+          "stabilitas_ARI": 0.9961605217402225,
+          "stabilitas_min": 0.9919051115614151,
+          "ukuran_terkecil_%": 49.583333333333336
+        },
+        {
+          "k": 3,
+          "silhouette": 0.21422739326953888,
+          "davies_bouldin": 1.6888952549769487,
+          "bic_gmm": -2814017.0984197403,
+          "stabilitas_ARI": 0.9712431345654202,
+          "stabilitas_min": 0.9363801060245266,
+          "ukuran_terkecil_%": 32.00277777777778
+        },
+        {
+          "k": 4,
+          "silhouette": 0.22149346768856049,
+          "davies_bouldin": 1.4940043054202232,
+          "bic_gmm": -2855571.2665300146,
+          "stabilitas_ARI": 0.738771454722287,
+          "stabilitas_min": 0.573494899717641,
+          "ukuran_terkecil_%": 17.322222222222223
+        },
+        {
+          "k": 5,
+          "silhouette": 0.24341747164726257,
+          "davies_bouldin": 1.3391979965968315,
+          "bic_gmm": -2877468.126566012,
+          "stabilitas_ARI": 0.9780579988541709,
+          "stabilitas_min": 0.9615369128997617,
+          "ukuran_terkecil_%": 9.255555555555556
+        },
+        {
+          "k": 6,
+          "silhouette": 0.2348729819059372,
+          "davies_bouldin": 1.4054531128012295,
+          "bic_gmm": -2895765.970139827,
+          "stabilitas_ARI": 0.9835808489864025,
+          "stabilitas_min": 0.9705511821575052,
+          "ukuran_terkecil_%": 9.01388888888889
+        },
+        {
+          "k": 7,
+          "silhouette": 0.2267502099275589,
+          "davies_bouldin": 1.4390843541166731,
+          "bic_gmm": -2909002.018368126,
+          "stabilitas_ARI": 0.8117826480154392,
+          "stabilitas_min": 0.6926623547279135,
+          "ukuran_terkecil_%": 8.827777777777778
+        },
+        {
+          "k": 8,
+          "silhouette": 0.24285198748111725,
+          "davies_bouldin": 1.3231175245912796,
+          "bic_gmm": -2917891.013325374,
+          "stabilitas_ARI": 0.9264967949816836,
+          "stabilitas_min": 0.836686886647455,
+          "ukuran_terkecil_%": 8.688888888888888
+        },
+        {
+          "k": 9,
+          "silhouette": 0.22775982320308685,
+          "davies_bouldin": 1.3246932064157866,
+          "bic_gmm": -2937811.5130334618,
+          "stabilitas_ARI": 0.9057681828910773,
+          "stabilitas_min": 0.7850144596700104,
+          "ukuran_terkecil_%": 8.594444444444445
+        },
+        {
+          "k": 10,
+          "silhouette": 0.22970925271511078,
+          "davies_bouldin": 1.3179111209264858,
+          "bic_gmm": -2943339.3508030525,
+          "stabilitas_ARI": 0.7464894689065581,
+          "stabilitas_min": 0.6016210310748646,
+          "ukuran_terkecil_%": 6.627777777777778
+        },
+        {
+          "k": 11,
+          "silhouette": 0.24968606233596802,
+          "davies_bouldin": 1.3535717391322257,
+          "bic_gmm": -2959408.2493055775,
+          "stabilitas_ARI": 0.7869728456702609,
+          "stabilitas_min": 0.6846620307694284,
+          "ukuran_terkecil_%": 7.0777777777777775
+        },
+        {
+          "k": 12,
+          "silhouette": 0.24924810230731964,
+          "davies_bouldin": 1.4014752473518604,
+          "bic_gmm": -2967430.2803440522,
+          "stabilitas_ARI": 0.7542634311551744,
+          "stabilitas_min": 0.6463989858330493,
+          "ukuran_terkecil_%": 5.194444444444445
+        },
+        {
+          "k": 13,
+          "silhouette": 0.2649223804473877,
+          "davies_bouldin": 1.286908892281415,
+          "bic_gmm": -2972701.0505181393,
+          "stabilitas_ARI": 0.8086661996332986,
+          "stabilitas_min": 0.7573495939230659,
+          "ukuran_terkecil_%": 4.1722222222222225
+        },
+        {
+          "k": 14,
+          "silhouette": 0.26531916856765747,
+          "davies_bouldin": 1.3297467691062284,
+          "bic_gmm": -2991103.619007745,
+          "stabilitas_ARI": 0.7181128786370954,
+          "stabilitas_min": 0.5931129576281925,
+          "ukuran_terkecil_%": 4.144444444444444
+        },
+        {
+          "k": 15,
+          "silhouette": 0.2521551251411438,
+          "davies_bouldin": 1.2690996315423009,
+          "bic_gmm": -2992788.6539682443,
+          "stabilitas_ARI": 0.8001544642856608,
+          "stabilitas_min": 0.7066030500150308,
+          "ukuran_terkecil_%": 4.4527777777777775
+        }
+      ],
+      "gabungan concat": [
+        {
+          "k": 2,
+          "silhouette": 0.17063067204167867,
+          "davies_bouldin": 2.1083574682531627,
+          "bic_gmm": -2355723.8932848023,
+          "stabilitas_ARI": 0.9939434082547318,
+          "stabilitas_min": 0.9891404513635208,
+          "ukuran_terkecil_%": 49.480555555555554
+        },
+        {
+          "k": 3,
+          "silhouette": 0.20512453311483564,
+          "davies_bouldin": 1.8393238351063605,
+          "bic_gmm": -2392239.043220732,
+          "stabilitas_ARI": 0.6094944596818502,
+          "stabilitas_min": 0.35010801157865373,
+          "ukuran_terkecil_%": 23.480555555555554
+        },
+        {
+          "k": 4,
+          "silhouette": 0.21617928864454172,
+          "davies_bouldin": 1.6409311618675166,
+          "bic_gmm": -2432409.5474176556,
+          "stabilitas_ARI": 0.7148537734983249,
+          "stabilitas_min": 0.5257255751863753,
+          "ukuran_terkecil_%": 21.808333333333334
+        },
+        {
+          "k": 5,
+          "silhouette": 0.3037791841611999,
+          "davies_bouldin": 1.3972642350131614,
+          "bic_gmm": -2441299.3995160353,
+          "stabilitas_ARI": 0.9269230128835908,
+          "stabilitas_min": 0.8240141477779331,
+          "ukuran_terkecil_%": 10.155555555555555
+        },
+        {
+          "k": 6,
+          "silhouette": 0.2855612450907905,
+          "davies_bouldin": 1.3355837296311848,
+          "bic_gmm": -2482581.4837377924,
+          "stabilitas_ARI": 0.7773231542585941,
+          "stabilitas_min": 0.6380718611976415,
+          "ukuran_terkecil_%": 10.152777777777777
+        },
+        {
+          "k": 7,
+          "silhouette": 0.26711910475012757,
+          "davies_bouldin": 1.3221593143932515,
+          "bic_gmm": -2512264.386003056,
+          "stabilitas_ARI": 0.817231075749229,
+          "stabilitas_min": 0.7259026627004025,
+          "ukuran_terkecil_%": 10.152777777777777
+        },
+        {
+          "k": 8,
+          "silhouette": 0.2661445436389553,
+          "davies_bouldin": 1.3594564926554442,
+          "bic_gmm": -2531828.640787567,
+          "stabilitas_ARI": 0.9909174543381832,
+          "stabilitas_min": 0.9832554661198054,
+          "ukuran_terkecil_%": 10.152777777777777
+        },
+        {
+          "k": 9,
+          "silhouette": 0.2769098957280818,
+          "davies_bouldin": 1.3229133783012548,
+          "bic_gmm": -2540763.903356446,
+          "stabilitas_ARI": 0.9468204271782776,
+          "stabilitas_min": 0.8786629188541234,
+          "ukuran_terkecil_%": 6.866666666666667
+        },
+        {
+          "k": 10,
+          "silhouette": 0.2821630361633559,
+          "davies_bouldin": 1.2970636584696356,
+          "bic_gmm": -2544636.9226076603,
+          "stabilitas_ARI": 0.956150787378214,
+          "stabilitas_min": 0.901189745773762,
+          "ukuran_terkecil_%": 5.0055555555555555
+        },
+        {
+          "k": 11,
+          "silhouette": 0.27445934424121454,
+          "davies_bouldin": 1.3789086800385595,
+          "bic_gmm": -2544935.771169889,
+          "stabilitas_ARI": 0.8546817083228986,
+          "stabilitas_min": 0.7880510725657112,
+          "ukuran_terkecil_%": 5.0055555555555555
+        },
+        {
+          "k": 12,
+          "silhouette": 0.26181642501864405,
+          "davies_bouldin": 1.3237024810355886,
+          "bic_gmm": -2565929.7257531285,
+          "stabilitas_ARI": 0.7737276858352454,
+          "stabilitas_min": 0.6451622538774735,
+          "ukuran_terkecil_%": 4.544444444444444
+        },
+        {
+          "k": 13,
+          "silhouette": 0.27200371616421576,
+          "davies_bouldin": 1.3868030037483658,
+          "bic_gmm": -2572692.9195557483,
+          "stabilitas_ARI": 0.7792514249030651,
+          "stabilitas_min": 0.66893487957922,
+          "ukuran_terkecil_%": 4.261111111111111
+        },
+        {
+          "k": 14,
+          "silhouette": 0.2466828439311849,
+          "davies_bouldin": 1.38611995177139,
+          "bic_gmm": -2583209.496667752,
+          "stabilitas_ARI": 0.7525230175645059,
+          "stabilitas_min": 0.6302660941000763,
+          "ukuran_terkecil_%": 4.283333333333333
+        },
+        {
+          "k": 15,
+          "silhouette": 0.2277894106664347,
+          "davies_bouldin": 1.465950851796356,
+          "bic_gmm": -2591092.1921388176,
+          "stabilitas_ARI": 0.8020613807847745,
+          "stabilitas_min": 0.6760626880441178,
+          "ukuran_terkecil_%": 4.341666666666667
+        }
+      ],
+      "gabungan joint (CLIP)": [
+        {
+          "k": 2,
+          "silhouette": 0.1793539607901862,
+          "davies_bouldin": 2.070153461497036,
+          "bic_gmm": -2283282.302766567,
+          "stabilitas_ARI": 0.997578403254051,
+          "stabilitas_min": 0.994670914877558,
+          "ukuran_terkecil_%": 42.475
+        },
+        {
+          "k": 3,
+          "silhouette": 0.2274105946599364,
+          "davies_bouldin": 1.8371571291188171,
+          "bic_gmm": -2314852.4222992794,
+          "stabilitas_ARI": 0.9999715008932284,
+          "stabilitas_min": 0.9999287522330713,
+          "ukuran_terkecil_%": 24.163888888888888
+        },
+        {
+          "k": 4,
+          "silhouette": 0.2534504824788605,
+          "davies_bouldin": 1.6091483957547794,
+          "bic_gmm": -2322737.164075259,
+          "stabilitas_ARI": 0.999912283970437,
+          "stabilitas_min": 0.9997807222107482,
+          "ukuran_terkecil_%": 10.155555555555555
+        },
+        {
+          "k": 5,
+          "silhouette": 0.27818181428265676,
+          "davies_bouldin": 1.4899852698434277,
+          "bic_gmm": -2354728.241939886,
+          "stabilitas_ARI": 0.9312039842889014,
+          "stabilitas_min": 0.828243954802983,
+          "ukuran_terkecil_%": 10.155555555555555
+        },
+        {
+          "k": 6,
+          "silhouette": 0.23816022907648415,
+          "davies_bouldin": 1.4837349970963478,
+          "bic_gmm": -2397181.438091165,
+          "stabilitas_ARI": 0.9972790430203924,
+          "stabilitas_min": 0.9957917798904731,
+          "ukuran_terkecil_%": 10.155555555555555
+        },
+        {
+          "k": 7,
+          "silhouette": 0.24885477921928825,
+          "davies_bouldin": 1.552126086275218,
+          "bic_gmm": -2401260.712833048,
+          "stabilitas_ARI": 0.8724399021724658,
+          "stabilitas_min": 0.7695418606393651,
+          "ukuran_terkecil_%": 10.155555555555555
+        },
+        {
+          "k": 8,
+          "silhouette": 0.23306467705435058,
+          "davies_bouldin": 1.6159735198867504,
+          "bic_gmm": -2405238.634242313,
+          "stabilitas_ARI": 0.9418016927174897,
+          "stabilitas_min": 0.8631193243380939,
+          "ukuran_terkecil_%": 10.155555555555555
+        },
+        {
+          "k": 9,
+          "silhouette": 0.22965724270077695,
+          "davies_bouldin": 1.5405476540550178,
+          "bic_gmm": -2409291.014371529,
+          "stabilitas_ARI": 0.8545303304948018,
+          "stabilitas_min": 0.7636578419839677,
+          "ukuran_terkecil_%": 7.347222222222221
+        },
+        {
+          "k": 10,
+          "silhouette": 0.23235624996297466,
+          "davies_bouldin": 1.518973526512703,
+          "bic_gmm": -2425091.2645770325,
+          "stabilitas_ARI": 0.8871315961397903,
+          "stabilitas_min": 0.8247013505974633,
+          "ukuran_terkecil_%": 6.666666666666667
+        },
+        {
+          "k": 11,
+          "silhouette": 0.23354963523093042,
+          "davies_bouldin": 1.5026171126252488,
+          "bic_gmm": -2443261.5554223405,
+          "stabilitas_ARI": 0.8363190242139,
+          "stabilitas_min": 0.7221115001857182,
+          "ukuran_terkecil_%": 4.961111111111111
+        },
+        {
+          "k": 12,
+          "silhouette": 0.2288712130157906,
+          "davies_bouldin": 1.492099511804719,
+          "bic_gmm": -2456844.74523235,
+          "stabilitas_ARI": 0.8523013467271735,
+          "stabilitas_min": 0.7309697604913152,
+          "ukuran_terkecil_%": 4.961111111111111
+        },
+        {
+          "k": 13,
+          "silhouette": 0.20918759208360263,
+          "davies_bouldin": 1.5983635947428605,
+          "bic_gmm": -2459216.139805568,
+          "stabilitas_ARI": 0.8266917360080285,
+          "stabilitas_min": 0.6940809239968478,
+          "ukuran_terkecil_%": 4.936111111111111
+        },
+        {
+          "k": 14,
+          "silhouette": 0.21423068562597297,
+          "davies_bouldin": 1.5728744517417792,
+          "bic_gmm": -2460424.7802504315,
+          "stabilitas_ARI": 0.8122054428072639,
+          "stabilitas_min": 0.7207804993880038,
+          "ukuran_terkecil_%": 3.0027777777777778
+        },
+        {
+          "k": 15,
+          "silhouette": 0.2158843879236258,
+          "davies_bouldin": 1.593180780485634,
+          "bic_gmm": -2465670.4825819735,
+          "stabilitas_ARI": 0.7675286725455892,
+          "stabilitas_min": 0.6979468770527132,
+          "ukuran_terkecil_%": 4.961111111111111
+        }
+      ],
+      "PCA piksel+spektrum (pembanding non-DL)": [
+        {
+          "k": 2,
+          "silhouette": 0.30976226925849915,
+          "davies_bouldin": 1.3315843256215076,
+          "bic_gmm": -1176215.378590035,
+          "stabilitas_ARI": 0.9962038828241747,
+          "stabilitas_min": 0.9941196175215989,
+          "ukuran_terkecil_%": 49.70833333333333
+        },
+        {
+          "k": 3,
+          "silhouette": 0.22997723519802094,
+          "davies_bouldin": 1.9236690659263036,
+          "bic_gmm": -1235545.6116256558,
+          "stabilitas_ARI": 0.6350206537230287,
+          "stabilitas_min": 0.395170189668509,
+          "ukuran_terkecil_%": 19.47222222222222
+        },
+        {
+          "k": 4,
+          "silhouette": 0.21361830830574036,
+          "davies_bouldin": 1.805958945711107,
+          "bic_gmm": -1250220.8903884154,
+          "stabilitas_ARI": 0.5631033686683531,
+          "stabilitas_min": 0.4233822164018092,
+          "ukuran_terkecil_%": 11.341666666666667
+        },
+        {
+          "k": 5,
+          "silhouette": 0.20817506313323975,
+          "davies_bouldin": 1.6913493964485062,
+          "bic_gmm": -1281178.67463276,
+          "stabilitas_ARI": 0.9682752765667921,
+          "stabilitas_min": 0.9512294175826613,
+          "ukuran_terkecil_%": 9.85
+        },
+        {
+          "k": 6,
+          "silhouette": 0.18792958557605743,
+          "davies_bouldin": 1.7776069963251366,
+          "bic_gmm": -1302532.3409758448,
+          "stabilitas_ARI": 0.9956426360703414,
+          "stabilitas_min": 0.9933957902978829,
+          "ukuran_terkecil_%": 11.76388888888889
+        },
+        {
+          "k": 7,
+          "silhouette": 0.2002597153186798,
+          "davies_bouldin": 1.821566247415674,
+          "bic_gmm": -1309437.3013405327,
+          "stabilitas_ARI": 0.8095196921510641,
+          "stabilitas_min": 0.7260347636680843,
+          "ukuran_terkecil_%": 11.747222222222224
+        },
+        {
+          "k": 8,
+          "silhouette": 0.1808539777994156,
+          "davies_bouldin": 1.7313811604132192,
+          "bic_gmm": -1308228.00779015,
+          "stabilitas_ARI": 0.7654267699080266,
+          "stabilitas_min": 0.5359518577772808,
+          "ukuran_terkecil_%": 9.105555555555556
+        },
+        {
+          "k": 9,
+          "silhouette": 0.1689635068178177,
+          "davies_bouldin": 1.7288321751222948,
+          "bic_gmm": -1322816.7723237472,
+          "stabilitas_ARI": 0.790841342158509,
+          "stabilitas_min": 0.5280376649056492,
+          "ukuran_terkecil_%": 7.097222222222223
+        },
+        {
+          "k": 10,
+          "silhouette": 0.1634809821844101,
+          "davies_bouldin": 1.784360911580963,
+          "bic_gmm": -1312710.7752209916,
+          "stabilitas_ARI": 0.7273747333651628,
+          "stabilitas_min": 0.5791343848482061,
+          "ukuran_terkecil_%": 7.105555555555555
+        },
+        {
+          "k": 11,
+          "silhouette": 0.16816872358322144,
+          "davies_bouldin": 1.7440997955526625,
+          "bic_gmm": -1332710.6327488332,
+          "stabilitas_ARI": 0.8049502912852995,
+          "stabilitas_min": 0.6867737282106005,
+          "ukuran_terkecil_%": 5.708333333333333
+        },
+        {
+          "k": 12,
+          "silhouette": 0.17188918590545654,
+          "davies_bouldin": 1.7951319498450564,
+          "bic_gmm": -1342835.933851942,
+          "stabilitas_ARI": 0.9734848365677315,
+          "stabilitas_min": 0.9608888428130636,
+          "ukuran_terkecil_%": 5.733333333333333
+        },
+        {
+          "k": 13,
+          "silhouette": 0.1739295870065689,
+          "davies_bouldin": 1.8027308320862259,
+          "bic_gmm": -1344427.982283167,
+          "stabilitas_ARI": 0.9253921007347152,
+          "stabilitas_min": 0.8863264372189052,
+          "ukuran_terkecil_%": 3.922222222222222
+        },
+        {
+          "k": 14,
+          "silhouette": 0.175791934132576,
+          "davies_bouldin": 1.7632502328009794,
+          "bic_gmm": -1360272.997517773,
+          "stabilitas_ARI": 0.9367868373972948,
+          "stabilitas_min": 0.8734023663847461,
+          "ukuran_terkecil_%": 3.5166666666666666
+        },
+        {
+          "k": 15,
+          "silhouette": 0.1780584305524826,
+          "davies_bouldin": 1.8415071629438167,
+          "bic_gmm": -1360452.0020164044,
+          "stabilitas_ARI": 0.8609746020229052,
+          "stabilitas_min": 0.8041118952808294,
+          "ukuran_terkecil_%": 3.5138888888888884
+        }
+      ]
+    },
+    "crosstab_gabungan_vs_spektrum": {
+      "0": {
+        "0": 4471,
+        "1": 0,
+        "2": 1,
+        "3": 3636,
+        "4": 0
+      },
+      "1": {
+        "0": 4,
+        "1": 2844,
+        "2": 1657,
+        "3": 3,
+        "4": 1239
+      },
+      "2": {
+        "0": 2561,
+        "1": 2032,
+        "2": 1191,
+        "3": 2619,
+        "4": 856
+      },
+      "3": {
+        "0": 1113,
+        "1": 899,
+        "2": 381,
+        "3": 702,
+        "4": 237
+      },
+      "4": {
+        "0": 1987,
+        "1": 2858,
+        "2": 1739,
+        "3": 1646,
+        "4": 1324
+      }
+    },
+    "crosstab_gabungan_vs_gambar": {
+      "0": {
+        "0": 0,
+        "1": 4359,
+        "2": 0,
+        "3": 3,
+        "4": 0
+      },
+      "1": {
+        "0": 10118,
+        "1": 3,
+        "2": 122,
+        "3": 25,
+        "4": 0
+      },
+      "2": {
+        "0": 0,
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 3656
+      },
+      "3": {
+        "0": 18,
+        "1": 2,
+        "2": 0,
+        "3": 8574,
+        "4": 0
+      },
+      "4": {
+        "0": 0,
+        "1": 0,
+        "2": 4847,
+        "3": 0,
+        "4": 0
+      },
+      "5": {
+        "0": 0,
+        "1": 4269,
+        "2": 0,
+        "3": 4,
+        "4": 0
+      }
+    },
+    "hilang_jika_satu_modalitas": {
+      "spektrum_saja": [
+        2,
+        3
+      ],
+      "gambar_saja": [
+        0,
+        1
+      ],
+      "ARI_gabungan_vs_spektrum": 0.10507256743194693,
+      "ARI_gabungan_vs_gambar": 0.9002664930105326
+    },
+    "metode": [
+      {
+        "metode": "K-Means",
+        "silhouette": 0.27818181428265676,
+        "ARI_antar_seed": 0.8284026120609073,
+        "ARI_vs_KMeans": 1.0,
+        "ARI_dengan_mikroskop": 0.00014663962799970321,
+        "ukuran_terkecil_%": 10.155555555555555
+      },
+      {
+        "metode": "GMM (diag)",
+        "silhouette": 0.27806988843269875,
+        "ARI_antar_seed": 0.9999331222854898,
+        "ARI_vs_KMeans": 0.9923934788177194,
+        "ARI_dengan_mikroskop": 0.00017127348583065468,
+        "ukuran_terkecil_%": 10.155555555555555
+      },
+      {
+        "metode": "Agglomerative Ward",
+        "silhouette": 0.2781924806621669,
+        "ARI_antar_seed": 0.9996058612060903,
+        "ARI_vs_KMeans": 0.9985994944759392,
+        "ARI_dengan_mikroskop": 0.00014863080815286816,
+        "ukuran_terkecil_%": 10.155555555555555
+      },
+      {
+        "metode": "DEC (deep clustering)",
+        "silhouette": 0.20157278141738966,
+        "ARI_antar_seed": 0.5670830057541062,
+        "ARI_vs_KMeans": 0.5600853417049868,
+        "ARI_dengan_mikroskop": 0.00015054480367443908,
+        "ukuran_terkecil_%": 16.96388888888889
+      }
+    ],
+    "metode_terpilih": "GMM (diag)",
+    "konfigurasi_final": {
+      "representasi": "gabungan joint (CLIP)",
+      "k": 5,
+      "metode": "GMM (diag)",
+      "fusion": "gabungan joint (CLIP)"
+    }
+  },
+  "angka": {
+    "TtigaKecerahanMsatu": 127.8,
+    "TtigaKecerahanMdua": 146.1,
+    "TtigaSpikePersen": 0.55,
+    "TtigaSpikeSpektrum": 22.5,
+    "TtigaRepTerpilih": "gabungan joint (CLIP)",
+    "TtigaKGambar": 6,
+    "TtigaKSpektrum": 5,
+    "TtigaARIGabSpek": 0.105,
+    "TtigaARIGabGambar": 0.9,
+    "TtigaARIMikroskop": 0.0,
+    "TtigaK": 5,
+    "TtigaSilK": 0.278,
+    "TtigaStabK": 0.931,
+    "TtigaMetode": "GMM (diag)",
+    "TtigaARIDEC": 0.56
+  }
+}

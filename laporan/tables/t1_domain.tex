@@ -1,0 +1,17 @@
+\begin{table}[ht]
+\centering\small
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%
+\begin{tabular}{lrrrr}
+\toprule
+teknik & f1\_macro & f1\_lini\_A & f1\_lini\_B & f1\_terbobot\_uji \\
+\midrule
+tanpa penanganan & 0.855 & 0.887 & 0.753 & 0.806 \\
+normalisasi per lini & 0.857 & 0.887 & 0.765 & 0.814 \\
+augmentasi kecerahan/kontras & 0.853 & 0.887 & 0.745 & 0.802 \\
+bobot sampel lini B $\times$2 & 0.848 & 0.876 & 0.758 & 0.806 \\
+\bottomrule
+\end{tabular}
+}
+\caption{Domain shift: F1 per lini dan F1 terbobot porsi uji untuk tiap teknik.}
+\label{tab:t1_domain}
+\end{table}

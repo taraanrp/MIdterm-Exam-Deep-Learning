@@ -1,0 +1,326 @@
+{
+  "name": "t1_experimen",
+  "quick": false,
+  "seed": 42,
+  "time": "2026-11-24 13:20:16",
+  "versions": {
+    "python": "3.13.14",
+    "numpy": "2.5.5",
+    "pandas": "3.1.1",
+    "sklearn": "1.9.1",
+    "torch": "2.14.1+cu126",
+    "device": "cuda:NVIDIA GeForce RTX 3050 Laptop GPU"
+  },
+  "data": {
+    "eksplorasi": {
+      "lini_B_train_%": 25.074999999999996,
+      "lini_B_test_%": 60.043749999999996,
+      "mean_piksel_A": 139.79069602371467,
+      "mean_piksel_B": 111.7319102669206,
+      "mean_piksel_test_A": 139.8880295021777,
+      "mean_piksel_test_B": 111.65423956916995,
+      "sensor_hilang_semua_train_%": 4.9,
+      "sensor_hilang_semua_test_%": 5.08125,
+      "mesin_lini_A": [
+        "M01",
+        "M02",
+        "M03",
+        "M04",
+        "M05",
+        "M06"
+      ],
+      "mesin_lini_B": [
+        "M07",
+        "M08",
+        "M09",
+        "M10",
+        "M11",
+        "M12"
+      ],
+      "batch_material_test_ada_di_train_%": 100.0
+    },
+    "distribusi_kelas_%": {
+      "normal": 49.766666666666666,
+      "gores": 11.714583333333334,
+      "noda": 9.94375,
+      "las_dingin": 9.00625,
+      "retak": 7.512499999999999,
+      "gelembung": 7.145833333333333,
+      "kontaminasi": 4.910416666666666
+    },
+    "fusion": [
+      {
+        "model": "concat (early/feature-level)",
+        "f1_macro": 0.824260737401952,
+        "f1_lini_A": 0.859194342355618,
+        "f1_lini_B": 0.7070903755705152,
+        "f1_terbobot_uji": 0.7679319622845564,
+        "epoch_terbaik": 11,
+        "epoch_total": 11
+      },
+      {
+        "model": "late fusion",
+        "f1_macro": 0.8548146774402744,
+        "f1_lini_A": 0.8871174133578688,
+        "f1_lini_B": 0.749583904854318,
+        "f1_terbobot_uji": 0.8045973082557383,
+        "epoch_terbaik": 10,
+        "epoch_total": 11
+      },
+      {
+        "model": "cross-attention",
+        "f1_macro": 0.8553030494633905,
+        "f1_lini_A": 0.8940675321189033,
+        "f1_lini_B": 0.7329455716248627,
+        "f1_terbobot_uji": 0.797394355822479,
+        "epoch_terbaik": 11,
+        "epoch_total": 11
+      }
+    ],
+    "fusion_terpilih": "late fusion",
+    "per_kelas_modalitas": [
+      {
+        "kelas": "normal",
+        "image-only": 0.8407315504089697,
+        "sensor-only": 0.737498986951941,
+        "fusion (late fusion)": 0.9057099545224861,
+        "modalitas_utama": "keduanya (fusion)"
+      },
+      {
+        "kelas": "gores",
+        "image-only": 0.722820763956905,
+        "sensor-only": 0.0,
+        "fusion (late fusion)": 0.7881075979235489,
+        "modalitas_utama": "gambar"
+      },
+      {
+        "kelas": "noda",
+        "image-only": 0.8749351323300467,
+        "sensor-only": 0.0,
+        "fusion (late fusion)": 0.8822894168466523,
+        "modalitas_utama": "gambar"
+      },
+      {
+        "kelas": "retak",
+        "image-only": 0.5375552282768777,
+        "sensor-only": 0.7061538461538461,
+        "fusion (late fusion)": 0.754688672168042,
+        "modalitas_utama": "sensor"
+      },
+      {
+        "kelas": "gelembung",
+        "image-only": 0.6480263157894737,
+        "sensor-only": 0.7715582450832073,
+        "fusion (late fusion)": 0.7988546886184682,
+        "modalitas_utama": "sensor"
+      },
+      {
+        "kelas": "las_dingin",
+        "image-only": 0.0,
+        "sensor-only": 0.9295441089402013,
+        "fusion (late fusion)": 0.9296274393849793,
+        "modalitas_utama": "sensor"
+      },
+      {
+        "kelas": "kontaminasi",
+        "image-only": 0.9132821075740944,
+        "sensor-only": 0.0,
+        "fusion (late fusion)": 0.9244249726177437,
+        "modalitas_utama": "gambar"
+      }
+    ],
+    "label_noise": {
+      "total_dicurigai": 3026,
+      "persen": 7.880208333333333,
+      "per_kelas": [
+        {
+          "kelas_label": "normal",
+          "n": 19110,
+          "dicurigai": 672,
+          "persen_dicurigai": 3.5164835164835164,
+          "kelas_kandidat_tersering": "gores"
+        },
+        {
+          "kelas_label": "gores",
+          "n": 4499,
+          "dicurigai": 622,
+          "persen_dicurigai": 13.825294509891087,
+          "kelas_kandidat_tersering": "normal"
+        },
+        {
+          "kelas_label": "noda",
+          "n": 3818,
+          "dicurigai": 280,
+          "persen_dicurigai": 7.333682556312206,
+          "kelas_kandidat_tersering": "gores"
+        },
+        {
+          "kelas_label": "retak",
+          "n": 2885,
+          "dicurigai": 733,
+          "persen_dicurigai": 25.407279029462735,
+          "kelas_kandidat_tersering": "gores"
+        },
+        {
+          "kelas_label": "gelembung",
+          "n": 2744,
+          "dicurigai": 267,
+          "persen_dicurigai": 9.730320699708454,
+          "kelas_kandidat_tersering": "noda"
+        },
+        {
+          "kelas_label": "las_dingin",
+          "n": 3458,
+          "dicurigai": 101,
+          "persen_dicurigai": 2.9207634470792367,
+          "kelas_kandidat_tersering": "normal"
+        },
+        {
+          "kelas_label": "kontaminasi",
+          "n": 1886,
+          "dicurigai": 351,
+          "persen_dicurigai": 18.61081654294804,
+          "kelas_kandidat_tersering": "gores"
+        }
+      ],
+      "ambang_per_kelas": [
+        0.6511818766593933,
+        0.3502977192401886,
+        0.7541889548301697,
+        0.36546432971954346,
+        0.7351685762405396,
+        0.909345805644989,
+        0.706081211566925
+      ],
+      "konsentrasi": {
+        "lini": {
+          "A": 8.77,
+          "B": 5.22
+        },
+        "shift": {
+          "malam": 7.71,
+          "pagi": 8.1,
+          "siang": 7.84
+        },
+        "id_mesin": {
+          "M01": 9.08,
+          "M02": 8.88,
+          "M03": 7.91,
+          "M04": 8.89,
+          "M05": 9.36,
+          "M06": 8.49,
+          "M07": 5.33,
+          "M08": 5.77,
+          "M09": 4.52,
+          "M10": 4.52,
+          "M11": 5.91,
+          "M12": 5.33
+        }
+      }
+    },
+    "robust_noise": [
+      {
+        "teknik": "baseline (CE + bobot kelas)",
+        "model": "late fusion",
+        "f1_macro": 0.8548146774402744,
+        "f1_lini_A": 0.8871174133578688,
+        "f1_lini_B": 0.749583904854318,
+        "f1_terbobot_uji": 0.8045973082557383,
+        "epoch_terbaik": 10,
+        "epoch_total": 11,
+        "f1_terbobot_val_bersih": 0.8840952826509536
+      },
+      {
+        "teknik": "label smoothing 0.1",
+        "model": null,
+        "f1_macro": 0.8550542816048983,
+        "f1_lini_A": 0.8870343162230597,
+        "f1_lini_B": 0.7525259999699461,
+        "f1_terbobot_uji": 0.8063293264711915,
+        "epoch_terbaik": 11,
+        "epoch_total": 11,
+        "f1_terbobot_val_bersih": 0.8793417811994779
+      },
+      {
+        "teknik": "buang sampel dicurigai",
+        "model": null,
+        "f1_macro": 0.8381738131349967,
+        "f1_lini_A": 0.873244087832777,
+        "f1_lini_B": 0.7295064996848258,
+        "f1_terbobot_uji": 0.7870015349440063,
+        "epoch_terbaik": 10,
+        "epoch_total": 11,
+        "f1_terbobot_val_bersih": 0.8557979771894
+      }
+    ],
+    "noise_terpilih": "label smoothing 0.1",
+    "domain": [
+      {
+        "teknik": "tanpa penanganan",
+        "f1_macro": 0.8550542816048983,
+        "f1_lini_A": 0.8870343162230597,
+        "f1_lini_B": 0.7525259999699461,
+        "f1_terbobot_uji": 0.8063293264711915
+      },
+      {
+        "teknik": "normalisasi per lini",
+        "f1_macro": 0.8574592143075109,
+        "f1_lini_A": 0.8869561007504229,
+        "f1_lini_B": 0.7652041933070916,
+        "f1_terbobot_uji": 0.813904956284424
+      },
+      {
+        "teknik": "augmentasi kecerahan/kontras",
+        "f1_macro": 0.8525204031831598,
+        "f1_lini_A": 0.8866738782100317,
+        "f1_lini_B": 0.7453381716609534,
+        "f1_terbobot_uji": 0.8018724542805847
+      },
+      {
+        "teknik": "bobot sampel lini B ×2",
+        "f1_macro": 0.8482734247119106,
+        "f1_lini_A": 0.8764649504868351,
+        "f1_lini_B": 0.758227194684958,
+        "f1_terbobot_uji": 0.8055222970057089
+      }
+    ],
+    "domain_terpilih": "normalisasi per lini",
+    "konfigurasi_final": {
+      "fusion": "late fusion",
+      "label_noise": "label smoothing 0.1",
+      "domain": "normalisasi per lini",
+      "train_cfg": {
+        "model": "late fusion",
+        "label_smoothing": 0.1
+      },
+      "norm": "per_lini"
+    }
+  },
+  "angka": {
+    "TsatuLiniBTrain": 25.1,
+    "TsatuLiniBTest": 60.0,
+    "TsatuPikselA": 139.8,
+    "TsatuPikselB": 111.7,
+    "TsatuSensorHilang": 4.9,
+    "TsatuSensorSatuHilang": 8.0,
+    "TsatuKelasNormal": 49.8,
+    "TsatuKelasKontaminasi": 4.9,
+    "TsatuFusionTerbaik": "late fusion",
+    "TsatuFlConcat": 0.768,
+    "TsatuFlLate": 0.805,
+    "TsatuFlCross": 0.797,
+    "TsatuFlImage": 0.579,
+    "TsatuFlSensor": 0.437,
+    "TsatuKelasGambar": "gores, noda, kontaminasi",
+    "TsatuKelasSensor": "retak, gelembung, las_dingin",
+    "TsatuKelasKeduanya": "normal",
+    "TsatuNoiseN": 3026,
+    "TsatuNoisePersen": 7.88,
+    "TsatuNoiseTerpilih": "label smoothing 0.1",
+    "TsatuValBersihPersen": 92.7,
+    "TsatuDomTerpilih": "normalisasi per lini",
+    "TsatuDomFlA": 0.887,
+    "TsatuDomFlB": 0.753,
+    "TsatuDomBestFlB": 0.765
+  }
+}

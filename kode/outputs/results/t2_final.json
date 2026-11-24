@@ -1,0 +1,25 @@
+{
+  "name": "t2_final",
+  "quick": false,
+  "seed": 42,
+  "time": "2026-11-24 15:20:21",
+  "versions": {
+    "python": "3.13.14",
+    "numpy": "2.5.5",
+    "pandas": "3.1.1",
+    "sklearn": "1.9.1",
+    "torch": "2.14.1+cu126",
+    "device": "cuda:NVIDIA GeForce RTX 3050 Laptop GPU"
+  },
+  "data": {
+    "n": 300,
+    "rul_median": 93.82433319091797,
+    "persen_rul_150": 0.0,
+    "persen_servis_H20": 18.666666666666668,
+    "bias": -14.0
+  },
+  "angka": {
+    "TduaUjiMedianRUL": 93.8,
+    "TduaUjiServis": 18.7
+  }
+}

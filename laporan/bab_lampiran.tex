@@ -1,0 +1,13 @@
+\subsection*{A. Reproduksi}
+\begin{verbatim}
+pip install -r kode/requirements.txt
+python -m pytest -q kode/tests
+python kode/run_all.py --task all --mode train
+python kode/run_all.py --task t1 --mode reproduce
+\end{verbatim}
+Perintah ketiga menghasilkan semua angka, gambar, tabel, dan tiga file prediksi (GPU T4: ±2--2,5 jam); perintah keempat memuat model tersimpan dan menghitung ulang
+angka kunci dalam beberapa menit. Seed 42; versi library dan GPU tercatat di setiap \url{kode/outputs/results/*.json}.
+
+\subsection*{B. Penggunaan AI}
+Kode disusun dengan bantuan Claude (Anthropic). Kelompok memverifikasinya dengan tes otomatis (metrik, anti-kebocoran jendela RUL), sanity check overfit satu batch,
+membandingkan skema validasi, menjalankan ulang \texttt{-{}-mode reproduce}, dan memeriksa setiap tabel serta gambar. Rincian per anggota ada di \texttt{kontribusi.md}.

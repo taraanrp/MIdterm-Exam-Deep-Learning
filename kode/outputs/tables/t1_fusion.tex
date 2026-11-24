@@ -1,0 +1,16 @@
+\begin{table}[ht]
+\centering\small
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%
+\begin{tabular}{lrrrrr}
+\toprule
+model & f1\_macro & f1\_lini\_A & f1\_lini\_B & f1\_terbobot\_uji & epoch\_terbaik \\
+\midrule
+concat (early/feature-level) & 0.824 & 0.859 & 0.707 & 0.768 & 11 \\
+late fusion & 0.855 & 0.887 & 0.750 & 0.805 & 10 \\
+cross-attention & 0.855 & 0.894 & 0.733 & 0.797 & 11 \\
+\bottomrule
+\end{tabular}
+}
+\caption{Perbandingan strategi fusion (validasi). F1 terbobot uji = 0.4 F1 lini A + 0.6 F1 lini B.}
+\label{tab:t1_fusion}
+\end{table}

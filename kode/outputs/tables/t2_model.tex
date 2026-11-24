@@ -1,0 +1,17 @@
+\begin{table}[ht]
+\centering\small
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{%
+\begin{tabular}{lrrrrrr}
+\toprule
+model & rmse & skor\_asimetris\_per\_300\_unit & rmse\_rul\_0\_25 & rmse\_rul\_25\_50 & rmse\_rul\_50\_100 & rmse\_rul\_100\_150 \\
+\midrule
+TCN (1D-CNN dilatasi) & 20.524 & 6905.118 & 11.988 & 17.677 & 29.691 & 17.000 \\
+LightGBM (baseline non-DL) & 20.874 & 7072.671 & 10.927 & 17.727 & 30.636 & 17.175 \\
+GRU & 24.416 & 23278.234 & 12.257 & 19.977 & 34.311 & 21.570 \\
+GRU + loss asimetris & 24.566 & 20430.217 & 11.035 & 20.502 & 33.458 & 22.566 \\
+\bottomrule
+\end{tabular}
+}
+\caption{Perbandingan model (3-fold per mesin, evaluasi di titik potong acak seperti data uji).}
+\label{tab:t2_model}
+\end{table}

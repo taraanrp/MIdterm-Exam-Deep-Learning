@@ -1,0 +1,10 @@
+{
+  "fusion": "late fusion",
+  "label_noise": "label smoothing 0.1",
+  "domain": "normalisasi per lini",
+  "train_cfg": {
+    "model": "late fusion",
+    "label_smoothing": 0.1
+  },
+  "norm": "per_lini"
+}

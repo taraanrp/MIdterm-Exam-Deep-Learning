@@ -1,0 +1,77 @@
+\section{Tugas 1 -- Klasifikasi Cacat Multimodal}
+Data latih: 48.000 unit dengan gambar permukaan $64\times64$ dan sinyal sensor penekanan $3\times128$ (suhu, getaran, arus); data uji 16.000 unit.
+Metrik uji adalah macro-F1 tujuh kelas. Validasi memakai 20\% data latih yang dibagi bertingkat menurut kelas $\times$ lini.
+
+\subsection*{(a) Eksplorasi}
+Kelas sangat tidak seimbang: \emph{normal} \TsatuKelasNormal\% dan \emph{kontaminasi} hanya \TsatuKelasKontaminasi\% (Tabel~\ref{tab:t1_eda_kelas_missing}).
+Gambar contoh tiap kelas dan rata-rata sinyal per kelas ada di Gambar~\ref{fig:t1gambar}--\ref{fig:t1sinyal}. Sensor tidak terekam utuh (ketiga kanal kosong) pada
+\TsatuSensorHilang\% unit dan setidaknya satu kanal kosong pada \TsatuSensorSatuHilang\% unit; kekosongan selalu satu kanal penuh, tidak pernah sebagian.
+\textbf{Perbedaan train--uji yang besar:} lini B hanya \TsatuLiniBTrain\% data latih tetapi \TsatuLiniBTest\% data uji, dan gambar lini B lebih gelap
+(rata-rata piksel \TsatuPikselB{} vs \TsatuPikselA{} pada lini A; Gambar~\ref{fig:t1domain}). Mesin M01--M06 hanya ada di lini A dan M07--M12 di lini B.
+Karena itu metrik utama validasi adalah \emph{F1 terbobot uji} $=0{,}4\,\mathrm{F1}_A + 0{,}6\,\mathrm{F1}_B$, yang meniru komposisi data uji.
+
+\begin{figure}[ht]\centering\includegraphics[width=.62\linewidth]{t1_eda_gambar.png}
+\caption{Contoh gambar per kelas (kiri lini A, kanan lini B).}\label{fig:t1gambar}\end{figure}
+\begin{figure}[ht]\centering\includegraphics[width=\linewidth]{t1_eda_sinyal.png}
+\caption{Rata-rata sinyal tiap kanal per kelas.}\label{fig:t1sinyal}\end{figure}
+\begin{figure}[ht]\centering\includegraphics[width=.85\linewidth]{t1_eda_domain.png}
+\caption{Intensitas piksel per lini dan proporsi lini di data latih vs uji.}\label{fig:t1domain}\end{figure}
+\input{tables/t1_eda_kelas_missing.tex}
+
+\subsection*{(b) Arsitektur dan strategi fusion}
+\textbf{Encoder gambar:} CNN empat blok (konvolusi $3\times3$--BatchNorm--ReLU dua kali lalu max-pooling) yang menghasilkan peta fitur $256\times4\times4$;
+rata-rata globalnya menjadi vektor 256 dimensi dan 16 posisinya menjadi token. \textbf{Encoder sinyal:} 1D-CNN tiga blok; masukannya tiga kanal sinyal
+yang dinormalisasi ditambah tiga kanal \emph{mask} (1 = kanal tidak terekam) sehingga model tahu kanal mana yang hilang; keluarannya vektor 128 dimensi dan 16 token.
+Tiga strategi fusion dibandingkan dengan seed dan anggaran epoch yang sama (Tabel~\ref{tab:t1_fusion}):
+(i) \emph{concat} --- vektor kedua modalitas digabung lalu satu kepala klasifikasi (fusion tingkat fitur);
+(ii) \emph{late fusion} --- kepala terpisah per modalitas, logit digabung dengan bobot per kelas yang dipelajari, dan bila seluruh sensor hilang keputusan otomatis dari gambar saja;
+(iii) \emph{cross-attention} dua arah antara token gambar dan token sinyal.
+Semua model dilatih dengan AdamW, jadwal one-cycle, bobot kelas $\sqrt{1/\text{frekuensi}}$, augmentasi flip/rotasi $90^\circ$, dan \emph{modality dropout}
+(sensor dihapus seluruhnya dengan peluang 0,15 dan satu kanal dengan peluang 0,10). F1 terbobot uji: concat \TsatuFlConcat, late \TsatuFlLate, cross-attention \TsatuFlCross;
+terpilih \textbf{\TsatuKonfigFusion}.
+
+\input{tables/t1_fusion.tex}
+
+\subsection*{(c) Nilai tiap modalitas}
+Model gambar saja mencapai F1 terbobot \TsatuFlImage{} dan sensor saja \TsatuFlSensor. Per kelas (Tabel~\ref{tab:t1_modalitas}, Gambar~\ref{fig:t1cm}):
+kelas yang terutama dikenali dari \textbf{gambar}: \TsatuKelasGambar; dari \textbf{sensor}: \TsatuKelasSensor; yang baru terbaca baik setelah \textbf{fusion}: \TsatuKelasKeduanya.
+Hal ini sesuai dengan sifat cacatnya: gores, noda, dan kontaminasi adalah cacat permukaan yang terlihat jelas di citra (Gambar~\ref{fig:t1gambar}), sehingga model sensor saja sama sekali tidak mengenalinya (F1 = 0). Sebaliknya, las dingin tidak tampak di permukaan (F1 gambar saja = 0) tetapi memiliki pola arus dan suhu yang khas saat penekanan (Gambar~\ref{fig:t1sinyal}), sehingga sensor saja sudah mencapai F1 0.93. Retak dan gelembung terbaca dari kedua modalitas, dan fusion menaikkan F1-nya di atas masing-masing modalitas.
+\input{tables/t1_modalitas.tex}
+\begin{figure}[ht]\centering\includegraphics[width=\linewidth]{t1_confusion_modalitas.png}
+\caption{Confusion matrix (dinormalisasi per kelas aktual) model gambar saja, sensor saja, dan fusion.}\label{fig:t1cm}\end{figure}
+
+\subsection*{(d) Label tidak sempurna}
+Kemungkinan salah label dideteksi dengan \emph{confident learning}: probabilitas \emph{out-of-fold} (3-fold) dari model fusion; ambang per kelas $t_j$ = rata-rata $p_j$ pada
+sampel berlabel $j$; sampel dicurigai bila $p(\text{label}) < t_{\text{label}}$ sementara ada kelas lain $j$ dengan $p_j \ge t_j$.
+Hasilnya \TsatuNoiseN{} sampel latih (\TsatuNoisePersen\%) dicurigai (Tabel~\ref{tab:t1_label_noise}, contoh di Gambar~\ref{fig:t1noise}).
+Dua teknik robust diuji: \emph{label smoothing} 0,1 dan membuang sampel yang dicurigai (Tabel~\ref{tab:t1_robust_noise}). Karena label validasi sendiri bisa salah,
+F1 juga dihitung pada validasi tanpa sampel yang dicurigai (\TsatuValBersihPersen\% validasi). Terpilih: \textbf{\TsatuKonfigNoise}.
+Sampel yang dicurigai tidak tersebar merata. Menurut kelas, porsi tertinggi ada pada retak (25.4\%), kontaminasi (18.6\%), dan gores (13.8\%), dengan kelas kandidat tersering \emph{gores}; ini wajar karena ketiganya berupa pola garis atau bercak yang mirip secara visual. Menurut lini, porsinya lebih tinggi di lini A (8.8\%) dibanding lini B (5.2\%), dan terkonsentrasi pada mesin M01--M06 (7.9--9.4\%) dibanding M07--M12 (4.5--5.9\%). Sebaliknya, per shift hampir sama (7.7--8.1\%), sehingga kesalahan label kemungkinan berkaitan dengan proses inspeksi di lini/mesin tertentu, bukan dengan shift kerja.
+\input{tables/t1_label_noise.tex}
+\begin{figure}[ht]\centering\includegraphics[width=.85\linewidth]{t1_label_noise_contoh.png}
+\caption{Contoh sampel yang paling dicurigai salah label: label inspektur vs prediksi model.}\label{fig:t1noise}\end{figure}
+\input{tables/t1_robust_noise.tex}
+
+\subsection*{(e) Domain shift antar lini}
+Tanpa penanganan, F1 lini A \TsatuDomFlA{} dan lini B \TsatuDomFlB{} (Tabel~\ref{tab:t1_domain}). Tiga teknik diuji: normalisasi intensitas per lini
+(sah karena lini tercantum di metadata uji), augmentasi kecerahan/kontras acak, dan bobot sampel lini B $\times2$. Terpilih \textbf{\TsatuKonfigDomain}
+(F1 lini B \TsatuDomBestFlB).
+
+\input{tables/t1_domain.tex}
+
+\subsection*{(f) Sensor yang tidak terekam}
+Model final diuji dengan sensor asli, seluruh sensor dihapus, dan satu kanal acak dihapus (Tabel~\ref{tab:t1_missing}): F1 terbobot \TsatuMissAsli, \TsatuMissHilang, dan \TsatuMissSatu.
+Berkat kanal mask dan modality dropout, prediksi tetap masuk akal saat sensor hilang; bandingkan dengan model gambar saja (\TsatuFlImage).
+
+\input{tables/t1_missing.tex}
+
+\subsection*{(g) Training: sanity check, learning curve, tiga seed}
+Model fusion mampu menghafal satu batch berisi 64 sampel (loss akhir \TsatuOverfitLoss, akurasi \TsatuOverfitAkurasi\%; Gambar~\ref{fig:t1overfit}), tanda bahwa pipeline
+data--model--loss benar. Learning curve (Gambar~\ref{fig:t1lc}) dipakai untuk memilih epoch terbaik (early stopping pada F1 terbobot uji).
+Tiga seed menghasilkan macro-F1 \TsatuSeedMean{} $\pm$ \TsatuSeedStd{} dan F1 terbobot \TsatuSeedWMean{} $\pm$ \TsatuSeedWStd{} (Tabel~\ref{tab:t1_seed});
+ensemble ketiganya (rata-rata softmax) mencapai \TsatuEnsFl{} (terbobot \TsatuEnsFlW) dan dipakai untuk prediksi uji.
+
+\begin{figure}[ht]\centering\includegraphics[width=.4\linewidth]{t1_overfit_batch.png}\hspace{1em}
+\includegraphics[width=.55\linewidth]{t1_learning_curve.png}
+\caption{Kiri: overfit satu batch. Kanan: learning curve model final (seed pertama).}\label{fig:t1overfit}\label{fig:t1lc}\end{figure}
+\input{tables/t1_seed.tex}

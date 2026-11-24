@@ -1,0 +1,60 @@
+\section{Tugas 3 -- Clustering Multimodal Material}
+Data: 36.000 sampel tanpa label, masing-masing dengan citra mikrostruktur $64\times64$ dan spektrum komposisi 128 titik; dua mikroskop (M1, M2).
+
+\subsection*{(a) Distorsi pada data}
+\textbf{Gambar:} orientasi tekstur tersebar merata (rotasi acak), skala bervariasi, dan mikroskop M2 lebih terang (rata-rata \TtigaKecerahanMdua{} vs \TtigaKecerahanMsatu{} pada M1;
+Gambar~\ref{fig:t3gambar} dan \ref{fig:t3distorsi}). \textbf{Spektrum:} posisi puncak bergeser beberapa titik, terdapat baseline miring/melengkung, dan \emph{spike} tunggal pada
+\TtigaSpikePersen\% titik (\TtigaSpikeSpektrum\% spektrum). Preprocessing spektrum (Gambar~\ref{fig:t3prep}): spike dideteksi sebagai titik yang menyimpang jauh dari rata-rata dua
+tetangganya lalu diganti; baseline polinomial derajat 2 di-fit ke ``lantai'' spektrum lalu dikurangkan; terakhir normalisasi SNV. Gambar distandarisasi per mikroskop.
+
+\begin{figure}[ht]\centering\includegraphics[width=\linewidth]{t3_eda_gambar.png}
+\caption{Contoh citra mikrostruktur dari mikroskop M1 (atas) dan M2 (bawah).}\label{fig:t3gambar}\end{figure}
+\begin{figure}[ht]\centering\includegraphics[width=\linewidth]{t3_eda_distorsi.png}
+\caption{Kecerahan per mikroskop, orientasi tekstur, contoh spektrum mentah, dan posisi puncak.}\label{fig:t3distorsi}\end{figure}
+\begin{figure}[ht]\centering\includegraphics[width=.75\linewidth]{t3_preprocessing_spektrum.png}
+\caption{Spektrum sebelum dan sesudah despike, koreksi baseline, dan SNV.}\label{fig:t3prep}\end{figure}
+
+\subsection*{(b) Representasi tanpa label}
+Dipakai \emph{SimCLR}: dua augmentasi acak dari sampel yang sama didekatkan dan sampel lain dijauhkan (loss NT-Xent, $\tau=0{,}2$). Augmentasi sengaja meniru
+distorsi yang \emph{tidak} boleh memengaruhi tipe material, sehingga representasi menjadi invarian terhadapnya:
+\begin{itemize}
+  \item gambar: rotasi bebas $0$--$360^\circ$ dan flip (material tidak punya orientasi), skala $0{,}75$--$1{,}25$, kecerahan/kontras (beda mikroskop), blur dan noise;
+  \item spektrum: geser $\pm4$ titik (pergeseran puncak), sisa baseline acak kuadratik, spike acak, noise, dan skala intensitas.
+\end{itemize}
+Encoder gambar adalah CNN yang sama dengan Tugas 1; encoder spektrum 1D-CNN tiga blok. Kurva loss ada di Gambar~\ref{fig:t3loss}.
+
+\subsection*{(c) Dua modalitas}
+Dua cara penggabungan dibandingkan: (i) \emph{concat} embedding SimCLR gambar dan spektrum yang dilatih terpisah, (ii) \emph{joint} gaya CLIP --- kedua encoder dilatih
+bersama dengan SimCLR per modalitas \emph{ditambah} loss kontrastif lintas-modal (gambar dan spektrum dari sampel yang sama adalah pasangan positif).
+PCA piksel+spektrum dilaporkan sebagai pembanding non-DL (Tabel~\ref{tab:t3_representasi}). Representasi gabungan terpilih: \textbf{\TtigaKonfigFusion}.
+Dengan gambar saja terpilih $k=\TtigaKGambar$ dan dengan spektrum saja $k=\TtigaKSpektrum$. Kesesuaian cluster gabungan dengan cluster spektrum saja ARI \TtigaARIGabSpek{}
+dan dengan gambar saja \TtigaARIGabGambar; crosstab di Gambar~\ref{fig:t3ct} menunjukkan cluster gabungan mana yang \emph{melebur} bila hanya satu modalitas dipakai.
+Contoh pasangan yang hanya terpisah oleh gambar adalah cluster 3 dan 4 pada hasil akhir: puncak spektrum keduanya di posisi yang sama (62, Tabel~\ref{tab:t3_per_cluster}), sehingga pembedanya adalah tekstur mikrostruktur. Sebaliknya, pada run ini hampir tidak ada pasangan yang hanya terpisah oleh spektrum: setiap cluster dari gambar saja masuk ke satu cluster gabungan (ARI 0.900), sedangkan kesesuaian dengan cluster spektrum saja rendah (ARI 0.105). Artinya representasi gabungan masih didominasi gambar; ini menjadi keterbatasan sekaligus arah perbaikan, misalnya memberi bobot lebih besar pada loss lintas-modal.
+\input{tables/t3_representasi.tex}
+\begin{figure}[ht]\centering\includegraphics[width=.4\linewidth]{t3_ssl_loss.png}\hspace{1em}
+\includegraphics[width=.55\linewidth]{t3_crosstab_modalitas.png}
+\caption{Kiri: loss self-supervised. Kanan: cluster gabungan vs cluster satu modalitas (proporsi baris).}\label{fig:t3loss}\label{fig:t3ct}\end{figure}
+
+\subsection*{(d)--(e) Metode dan jumlah cluster}
+Pada representasi terpilih, $k = 2,\dots,15$ dinilai dengan silhouette, stabilitas (rata-rata ARI antar 5 run subsampling 80\%), dan BIC GMM (Gambar~\ref{fig:t3k},
+Tabel~\ref{tab:t3_kriteria_k}). Aturan yang ditetapkan sebelum melihat hasil: \emph{di antara $k \geq 3$ yang stabil (ARI $\geq 0{,}90$), pilih silhouette tertinggi}.
+Terpilih $k = \TtigaK$ (silhouette \TtigaSilK, stabilitas \TtigaStabK). Empat metode dibandingkan pada $k$ tersebut (Tabel~\ref{tab:t3_metode}): K-Means, GMM diagonal,
+Agglomerative Ward, dan \emph{DEC} (Deep Embedded Clustering: autoencoder kecil di atas embedding, centroid diinisialisasi K-Means, lalu dioptimasi dengan
+KL antara soft assignment Student-$t$ dan distribusi target yang dipertajam). Terpilih \textbf{\TtigaKonfigMetode} (metode paling stabil antar seed).
+ARI cluster akhir dengan mikroskop \TtigaARIMikroskopFinal{} $\approx 0$: cluster tidak sekadar memisahkan mikroskop.
+
+\begin{figure}[ht]\centering\includegraphics[width=\linewidth]{t3_kriteria_k.png}
+\caption{Kriteria jumlah cluster; garis hijau = $k$ terpilih.}\label{fig:t3k}\end{figure}
+\input{tables/t3_kriteria_k.tex}
+\input{tables/t3_metode.tex}
+
+\subsection*{(f) Analisis}
+t-SNE pada 5.000 sampel (Gambar~\ref{fig:t3tsne}) menunjukkan \TtigaNCluster{} kelompok dan tidak ada pemisahan menurut mikroskop. Ringkasan per cluster
+(silhouette, porsi tetangga dari cluster lain, posisi puncak spektrum) ada di Tabel~\ref{tab:t3_per_cluster}; contoh gambar dan spektrum rata-rata di Gambar~\ref{fig:t3contoh}.
+Pasangan yang paling sulit dipisah (tetangga terdekat paling sering bercampur) adalah cluster \TtigaSulitA{} dan \TtigaSulitB.
+Meski disebut ``paling sulit'', pencampurannya sangat kecil: hanya 0.24\% tetangga terdekat cluster 0 dan 3 berasal dari cluster pasangannya. Puncak spektrum keduanya berbeda (posisi 20 vs 62), sehingga keduanya berdekatan karena tekstur citranya mirip, bukan karena komposisinya sama (Gambar~\ref{fig:t3contoh}). Cluster dengan silhouette terendah justru cluster 2 (0.18), yang menunjukkan materialnya paling bervariasi di dalam kelompoknya.  
+\begin{figure}[ht]\centering\includegraphics[width=.95\linewidth]{t3_tsne.png}
+\caption{t-SNE embedding gabungan: warna menurut cluster (kiri) dan mikroskop (kanan).}\label{fig:t3tsne}\end{figure}
+\input{tables/t3_per_cluster.tex}
+\begin{figure}[ht]\centering\includegraphics[width=.75\linewidth]{t3_contoh_cluster.png}
+\caption{Contoh gambar dan spektrum rata-rata tiap cluster.}\label{fig:t3contoh}\end{figure}

@@ -1,0 +1,6 @@
+{
+  "representasi": "gabungan joint (CLIP)",
+  "k": 5,
+  "metode": "GMM (diag)",
+  "fusion": "gabungan joint (CLIP)"
+}

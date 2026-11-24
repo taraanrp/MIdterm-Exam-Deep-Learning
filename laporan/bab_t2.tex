@@ -1,0 +1,56 @@
+\section{Tugas 2 -- Prediksi Sisa Umur Pakai (RUL)}
+Data latih: \TduaNUnitTrain{} mesin dengan riwayat sampai rusak (median umur \TduaUmurMedian{} siklus); data uji \TduaNUnitTest{} mesin yang dipotong pada titik acak
+(panjang \TduaUjiMin--\TduaUjiMaks{} siklus, median \TduaUjiMedian). RUL diprediksi di siklus terakhir tiap mesin uji.
+
+\subsection*{(a) Eksplorasi dan preprocessing}
+Tiga setelan operasi membentuk enam kondisi diskrit (Tabel~\ref{tab:t2_kondisi}). Bacaan sensor terutama ditentukan oleh kondisi operasi, sehingga tren degradasi
+baru terlihat setelah setiap sensor di-z-score \emph{per kondisi} (Gambar~\ref{fig:t2kondisi}); normalisasi global akan menyamarkan tren dengan lompatan antar kondisi.
+Statistik normalisasi dihitung hanya dari unit latih pada setiap fold. Bacaan hilang (\TduaNaNPersen\%) diisi dengan nilai sebelumnya dalam unit yang sama
+(\emph{forward-fill}, kausal). \emph{Spike} ($|z| > 6$, \TduaSpike{} titik) diganti nilai sebelumnya. Sensor dengan |korelasi Spearman| dengan RUL < 0,05 dibuang
+(\TduaSensorDibuang; Tabel~\ref{tab:t2_sensor}), menyisakan \TduaSensorDipakai{} sensor ditambah one-hot kondisi dan nomor siklus.
+
+\begin{figure}[ht]\centering\includegraphics[width=\linewidth]{t2_eda_kondisi.png}
+\caption{Atas: sensor mentah (warna = kondisi operasi). Bawah: setelah z-score per kondisi, tren degradasi terlihat.}\label{fig:t2kondisi}\end{figure}
+\input{tables/t2_kondisi.tex}
+\input{tables/t2_sensor.tex}
+
+\subsection*{(b) Label}
+Untuk setiap mesin latih, $\mathrm{RUL}_t = \text{siklus terakhir} - t$, lalu dipotong pada 150 (Gambar~\ref{fig:t2label}): di awal umur mesin, degradasi belum terlihat
+sehingga RUL besar tidak dapat dibedakan; pemotongan juga sesuai definisi label uji.
+
+\begin{figure}[ht]\centering\includegraphics[width=.45\linewidth]{t2_label.png}
+\caption{Label RUL mentah dan setelah dipotong 150.}\label{fig:t2label}\end{figure}
+
+\subsection*{(c) Sekuens tanpa kebocoran}
+Setiap sampel adalah jendela 40 siklus yang \emph{berakhir} di siklus $t$, dengan target RUL di $t$. Semua mesin disusun dengan padding nol di kiri ditambah kanal mask,
+sehingga histori yang lebih pendek dari 40 siklus tetap dapat diproses dan jendela tidak pernah berisi siklus sesudah $t$ atau siklus mesin lain
+(diuji otomatis di \texttt{kode/tests/test\_rul\_windows.py}).
+
+\subsection*{(d)--(e) Model dan validasi per mesin}
+Dibandingkan GRU dua lapis, TCN (konvolusi kausal berdilatasi 1--8), GRU dengan loss asimetris (kesalahan terlalu optimis diberi bobot 1,6), dan baseline non-DL LightGBM
+pada fitur jendela (nilai terakhir, rata-rata 10 siklus, kemiringan 20 siklus). Validasi 3-fold \emph{per mesin} (GroupKFold); setiap mesin validasi dipotong pada tiga
+titik acak (panjang $\geq 50$ siklus) seperti data uji, lalu RUL dievaluasi hanya di siklus terakhir yang terlihat --- mengevaluasi semua jendela akan terlalu optimis.
+RMSE: GRU \TduaRMSEGRU, TCN \TduaRMSETCN, GRU loss asimetris \TduaRMSEAsim, LightGBM \TduaRMSELGBM; skor asimetris per 300 mesin: \TduaSkorGRU, \TduaSkorTCN, \TduaSkorAsim, \TduaSkorLGBM
+(Tabel~\ref{tab:t2_model}--\ref{tab:t2_skor_rentang}). Terpilih \textbf{\TduaKonfigArsitektur}.
+Karena skor menghukum prediksi terlambat lebih berat, prediksi digeser $\delta = \TduaKonfigBias$ siklus (dipilih pada prediksi out-of-fold), mengubah skor dari
+\TduaSkorSebelumBias{} menjadi \TduaSkorSesudahBias{} dengan RMSE \TduaRMSESesudahBias{} (Gambar~\ref{fig:t2bias}).
+Error terbesar ada pada rentang RUL 50--100 (RMSE TCN 29.7, dibanding 12.0 pada RUL 0--25), dan rentang ini juga menyumbang sebagian besar skor asimetris. Pada fase ini degradasi baru mulai sehingga sinyal sensor belum jelas berubah, sedangkan mendekati kerusakan (RUL $<$ 25) tren sensor sudah tegas dan prediksi jauh lebih akurat. Koreksi bias $\delta = -14$ sengaja menaikkan RMSE (20.52 $\to$ 22.85) demi menurunkan skor asimetris hampir separuhnya, karena prediksi yang terlambat jauh lebih mahal daripada yang terlalu dini.
+\input{tables/t2_model.tex}
+\input{tables/t2_skor_rentang.tex}
+\begin{figure}[ht]\centering\includegraphics[width=.9\linewidth]{t2_prediksi_bias.png}
+\caption{Kiri: prediksi out-of-fold vs aktual. Kanan: pemilihan pergeseran $\delta$ untuk skor asimetris.}\label{fig:t2bias}\end{figure}
+\begin{figure}[ht]\centering\includegraphics[width=.55\linewidth]{t2_learning_curve.png}
+\caption{Learning curve model terpilih pada fold 1: RMSE latih vs RMSE validasi di titik potong.}\label{fig:t2lc}\end{figure}
+Gambar~\ref{fig:t2lc} membandingkan RMSE latih (rata-rata semua window) dengan RMSE validasi yang diukur hanya di titik potong seperti data uji. RMSE validasi wajar lebih tinggi karena titik potong lebih sulit diprediksi daripada rata-rata window. Model dilatih dengan jumlah epoch tetap tanpa \emph{early stopping}; sebagai gantinya, risiko overfit diredam dengan dropout, \emph{weight decay}, dan rata-rata tiga seed pada model final. Selisih antara kedua kurva di epoch akhir menunjukkan seberapa besar model mulai menghafal pola data latih.
+\subsection*{(f) Ketidakpastian dan kapan servis}
+Interval prediksi dibuat dengan MC dropout (30 kali forward dengan dropout aktif pada GRU). Interval 80\% mencakup RUL aktual pada \TduaCoverageInterval{} sampel
+validasi dengan lebar median \TduaLebarInterval{} siklus (Gambar~\ref{fig:t2interval}). Kebijakan servis yang diusulkan memakai \emph{batas bawah} interval:
+servis bila batas bawah $\leq H$ siklus. Tabel~\ref{tab:t2_kebijakan_servis} menunjukkan trade-off antara mesin hampir rusak yang tertangkap dan servis yang terlalu dini;
+dengan $H = 20$, \TduaUjiServis\% mesin uji direkomendasikan diservis.
+Kami memilih $H = 30$. Pada validasi, aturan ini menangkap 96.7\% mesin yang benar-benar hampir rusak (RUL $\leq 15$) tanpa satu pun servis yang terlalu dini (RUL $> 80$), dengan 16.0\% mesin diservis; menaikkan $H$ ke 40 hanya menambah tangkapan 3.3 poin tetapi menambah servis. Alasannya, biaya mesin rusak saat produksi (berhenti mendadak dan kerusakan lanjutan) jauh lebih besar daripada biaya satu servis yang agak terlalu awal. Dengan $H = 30$, 23.0\% mesin uji direkomendasikan diservis. Catatan: interval MC dropout terlalu sempit (coverage hanya 0.338 dari target 0.80), sehingga kebijakan ini kami dasarkan pada hasil empiris di validasi, bukan pada nominal 80\%-nya.
+\begin{figure}[ht]\centering\includegraphics[width=.7\linewidth]{t2_interval.png}
+\caption{Prediksi dan interval 80\% MC dropout pada sampel validasi (diurutkan menurut RUL aktual).}\label{fig:t2interval}\end{figure}
+\input{tables/t2_kebijakan_servis.tex}
+
+\textbf{Prediksi uji.} Model terpilih dilatih ulang pada semua mesin latih dengan tiga seed (ensemble), lalu digeser $\delta$ dan dipotong ke $[0,150]$;
+median RUL uji \TduaUjiMedianRUL{} siklus. Interval per mesin disimpan di \texttt{kode/outputs/tables/t2\_interval\_uji.csv}.

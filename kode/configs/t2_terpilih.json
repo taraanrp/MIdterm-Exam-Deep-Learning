@@ -1,0 +1,5 @@
+{
+  "arsitektur": "TCN (1D-CNN dilatasi)",
+  "bias": -14.0,
+  "window": 40
+}
